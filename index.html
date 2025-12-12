@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Torneio de Evolução - Powerlifting</title>
+    <title>Torneio de Evolução - Copa Psycho</title>
     <style>
         :root {
             --bg-color: #0f0f13;
             --card-bg: #1b1b22;
-            --accent: #00e676; /* Verde Neon para "Evolução" */
+            --accent: #00e676;
             --accent-dim: #00a856;
             --gold: #ffab00;
             --text-main: #e0e0e0;
@@ -27,175 +27,66 @@
             align-items: center;
         }
 
-        h1 { 
-            color: var(--accent); 
-            text-transform: uppercase; 
-            letter-spacing: 1px; 
-            text-align: center; 
-            font-size: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
+        h1 { color: var(--accent); text-transform: uppercase; letter-spacing: 1px; text-align: center; margin-bottom: 20px; }
+        .main-container { width: 100%; max-width: 900px; display: flex; flex-direction: column; gap: 25px; }
+        .card { background-color: var(--card-bg); padding: 25px; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 12px rgba(0,0,0,0.4); }
+        .card-title { margin-top: 0; font-size: 1.2rem; border-bottom: 1px solid #333; padding-bottom: 15px; color: #fff; margin-bottom: 20px; }
         
-        p.subtitle {
-            text-align: center;
-            color: #888;
-            font-size: 0.9rem;
-            margin-top: 0;
-            margin-bottom: 2rem;
-            max-width: 600px;
-        }
-
-        .main-container {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 20px;
-            width: 100%;
-            max-width: 900px;
-        }
-
-        /* CARD DE CADASTRO */
-        .card {
-            background-color: var(--card-bg);
-            padding: 25px;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
-        }
-
-        .team-header {
-            margin-bottom: 20px;
-        }
-        
-        .team-name-input {
-            width: 100%;
-            padding: 12px;
-            background: var(--input-bg);
-            border: 1px solid #555;
-            color: #fff;
-            border-radius: 6px;
-            font-size: 1.2rem;
-            font-weight: bold;
-        }
-
-        .athletes-wrapper {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        @media (max-width: 700px) {
-            .athletes-wrapper { grid-template-columns: 1fr; }
-        }
-
-        .athlete-box {
-            background: rgba(255,255,255,0.02);
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #333;
-        }
-
-        .athlete-box h3 { 
-            margin-top: 0; 
-            color: var(--text-main); 
-            border-bottom: 1px solid #333; 
-            padding-bottom: 8px;
-            font-size: 1rem;
-        }
-
+        .team-name-input { width: 100%; padding: 12px; background: var(--input-bg); border: 1px solid #555; color: #fff; border-radius: 6px; font-size: 1.2rem; font-weight: bold; box-sizing: border-box; margin-bottom: 20px; }
+        .athletes-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media (max-width: 700px) { .athletes-wrapper { grid-template-columns: 1fr; } }
+        .athlete-box { background: rgba(255,255,255,0.02); padding: 15px; border-radius: 8px; border: 1px solid #333; }
+        .athlete-box h3 { margin: 0 0 10px 0; color: var(--text-main); border-bottom: 1px solid #333; padding-bottom: 8px; font-size: 1rem; }
         .input-group { margin-bottom: 10px; }
         .input-group label { display: block; font-size: 0.75rem; color: #aaa; margin-bottom: 3px; }
-        
-        select, input[type="number"] {
-            width: 100%;
-            padding: 8px;
-            background: var(--input-bg);
-            border: 1px solid #444;
-            color: white;
-            border-radius: 4px;
-            box-sizing: border-box;
-            font-size: 0.9rem;
-        }
-        
+        select, input[type="number"] { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; }
         input[type="number"]:focus { outline: none; border-color: var(--accent); }
+        
+        /* Destaque para inputs importantes */
+        .highlight-input { border-color: var(--accent-dim) !important; background-color: rgba(0, 230, 118, 0.05) !important; font-weight: bold; color: var(--accent) !important; }
+        .locked-input { color: #888; background-color: #222; border-color: #333; }
 
-        .highlight-input {
-            border-color: var(--accent-dim) !important;
-            background-color: rgba(0, 230, 118, 0.05) !important;
-        }
-
-        button.btn-add {
-            width: 100%;
-            margin-top: 25px;
-            padding: 15px;
-            background: linear-gradient(45deg, var(--accent-dim), var(--accent));
-            color: #000;
-            border: none;
-            border-radius: 6px;
-            font-weight: 800;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: 0.2s;
-        }
+        button.btn-add { width: 100%; margin-top: 25px; padding: 15px; background: linear-gradient(45deg, var(--accent-dim), var(--accent)); color: #000; border: none; border-radius: 6px; font-weight: 800; font-size: 1.1rem; text-transform: uppercase; cursor: pointer; transition: 0.2s; }
         button.btn-add:hover { filter: brightness(1.1); transform: translateY(-2px); }
 
-        /* RANKING */
         .ranking-list { list-style: none; padding: 0; margin: 0; }
-
-        .ranking-item {
-            background: var(--input-bg);
-            margin-bottom: 12px;
-            padding: 15px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            border-left: 4px solid #444;
-            transition: transform 0.2s;
-        }
-        
+        .ranking-item { background: var(--input-bg); margin-bottom: 12px; padding: 15px; border-radius: 8px; display: flex; align-items: center; border-left: 4px solid #444; transition: transform 0.2s; }
         .ranking-item:hover { transform: translateX(5px); }
-
-        .ranking-item.first-place {
-            border-left: 4px solid var(--gold);
-            background: linear-gradient(90deg, #2c2718 0%, #26262e 100%);
-        }
-
-        .rank-pos { 
-            font-size: 1.5rem; font-weight: 900; margin-right: 15px; width: 35px; text-align: center; color: #666; 
-        }
+        .ranking-item.first-place { border-left: 4px solid var(--gold); background: linear-gradient(90deg, #2c2718 0%, #26262e 100%); }
+        .rank-pos { font-size: 1.5rem; font-weight: 900; margin-right: 15px; width: 35px; text-align: center; color: #666; }
         .first-place .rank-pos { color: var(--gold); }
-
         .team-info { flex-grow: 1; }
-        .team-name { font-weight: bold; font-size: 1.1rem; display: block; color: #fff; }
-        .team-stats { font-size: 0.8rem; color: #888; margin-top: 4px; }
-        
-        .score-box { text-align: right; }
+        .team-name { font-weight: bold; font-size: 1.1rem; display: block; color: #fff; margin-bottom: 8px;}
+        .team-stats { font-size: 0.8rem; color: #888; }
+        .score-box { text-align: right; min-width: 100px; }
         .final-score { font-size: 1.6rem; font-weight: 800; color: var(--accent); line-height: 1; }
         .raw-evolution { font-size: 0.75rem; color: #666; display: block; margin-top: 4px; }
+        
+        .delete-btn { background: #2c2c2c; border: 1px solid #444; color: #aaa; cursor: pointer; font-size: 1.2rem; margin-left: 15px; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .delete-btn:hover { color: #fff; background-color: #ff4444; border-color: #ff4444; }
 
-        .delete-btn {
-            background: none; border: none; color: #444; cursor: pointer; font-size: 1.2rem; margin-left: 15px;
-        }
-        .delete-btn:hover { color: #ff4444; }
-
+        .roster-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
+        .roster-card { background: var(--input-bg); border: 1px solid #333; border-radius: 8px; padding: 15px 20px; display: flex; align-items: center; cursor: pointer; transition: all 0.2s; }
+        .roster-card:hover { border-color: var(--accent); background-color: #2a2a35; }
+        .roster-icon { font-size: 1.2rem; margin-right: 15px; color: #666; }
+        .roster-names { font-weight: 600; color: #ccc; font-size: 0.9rem; }
     </style>
 </head>
 <body>
 
-    <h1>🏆 Evolução de Carga GL</h1>
-    <p class="subtitle">Handicap baseado em tempo de treino: Veteranos ganham bônus multiplicador na evolução.</p>
+    <h1>🏆 Copa Psycho - Evolution</h1>
 
     <div class="main-container">
         
         <div class="card">
-            <div class="team-header">
-                <input type="text" id="teamName" class="team-name-input" placeholder="Nome da Dupla">
-            </div>
+            <h2 class="card-title">Calculadora de Evolução</h2>
+            <p style="font-size:0.8rem; color:#666; margin-top:-10px; margin-bottom:15px;">Dica: Selecione a dupla na lista abaixo para carregar os dados salvos.</p>
+            
+            <input type="text" id="teamName" class="team-name-input" placeholder="Nome da Dupla">
             
             <div class="athletes-wrapper">
                 <div class="athlete-box">
                     <h3>Atleta 1</h3>
-                    
                     <div class="input-group">
                         <label>Sexo & Equipamento</label>
                         <div style="display:flex; gap:5px;">
@@ -203,24 +94,15 @@
                             <select id="p1_equip"><option value="Classico">Raw</option><option value="Equipado">Equipado</option></select>
                         </div>
                     </div>
-
-                    <div class="input-group">
-                        <label>Peso Corporal (kg)</label>
-                        <input type="number" id="p1_weight" step="0.1" placeholder="Ex: 83.0">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Tempo de Treino (Anos)</label>
-                        <input type="number" id="p1_years" step="0.5" placeholder="Ex: 2.5">
-                    </div>
-
+                    <div class="input-group"><label>Peso (kg)</label><input type="number" id="p1_weight" step="0.1" placeholder="83.0"></div>
+                    <div class="input-group"><label>Anos de Treino</label><input type="number" id="p1_years" step="0.5" placeholder="2.5"></div>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px; border-top:1px solid #333; padding-top:10px;">
                         <div class="input-group">
-                            <label>Total Inicial (kg)</label>
-                            <input type="number" id="p1_start" step="0.5">
+                            <label>Total Inicial</label>
+                            <input type="number" id="p1_start" step="0.5" class="locked-input">
                         </div>
                         <div class="input-group">
-                            <label style="color:var(--accent);">Total Atual (kg)</label>
+                            <label style="color:var(--accent);">Total Atual</label>
                             <input type="number" id="p1_current" step="0.5" class="highlight-input">
                         </div>
                     </div>
@@ -228,7 +110,6 @@
 
                 <div class="athlete-box">
                     <h3>Atleta 2</h3>
-                    
                     <div class="input-group">
                         <label>Sexo & Equipamento</label>
                         <div style="display:flex; gap:5px;">
@@ -236,104 +117,125 @@
                             <select id="p2_equip"><option value="Classico">Raw</option><option value="Equipado">Equipado</option></select>
                         </div>
                     </div>
-
-                    <div class="input-group">
-                        <label>Peso Corporal (kg)</label>
-                        <input type="number" id="p2_weight" step="0.1" placeholder="Ex: 83.0">
-                    </div>
-
-                    <div class="input-group">
-                        <label>Tempo de Treino (Anos)</label>
-                        <input type="number" id="p2_years" step="0.5" placeholder="Ex: 5.0">
-                    </div>
-
+                    <div class="input-group"><label>Peso (kg)</label><input type="number" id="p2_weight" step="0.1" placeholder="63.0"></div>
+                    <div class="input-group"><label>Anos de Treino</label><input type="number" id="p2_years" step="0.5" placeholder="1.0"></div>
                     <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; margin-top:15px; border-top:1px solid #333; padding-top:10px;">
                         <div class="input-group">
-                            <label>Total Inicial (kg)</label>
-                            <input type="number" id="p2_start" step="0.5">
+                            <label>Total Inicial</label>
+                            <input type="number" id="p2_start" step="0.5" class="locked-input">
                         </div>
                         <div class="input-group">
-                            <label style="color:var(--accent);">Total Atual (kg)</label>
+                            <label style="color:var(--accent);">Total Atual</label>
                             <input type="number" id="p2_current" step="0.5" class="highlight-input">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn-add" onclick="registerTeam()">Calcular Evolução & Rankear</button>
+            <button class="btn-add" onclick="registerTeam()">Salvar Evolução</button>
         </div>
 
         <div class="card">
-            <h2 style="margin-top:0; font-size:1.2rem; border-bottom:1px solid #333; padding-bottom:15px; color:#fff;">Ranking de Evolução Ajustada</h2>
+            <h2 class="card-title">Ranking Geral 📊</h2>
             <ul id="leaderboard" class="ranking-list">
-                <li style="text-align:center; color:#555; padding:20px; font-style:italic;">Adicione os times para ver o ranking.</li>
+                <li style="text-align:center; color:#555; padding:20px;">Nenhum time registrado ainda.</li>
             </ul>
         </div>
+
+        <div class="card">
+            <h2 class="card-title">Duplas Confirmadas 📋</h2>
+            <div id="official-roster" class="roster-grid"></div>
+        </div>
+
     </div>
 
 <script>
-    // --- CONFIGURAÇÃO ---
-    // Quanto vale cada ano de treino no handicap? 0.15 = 15% de bônus por ano.
-    const EXPERIENCE_FACTOR = 0.15; 
+    // LISTA DE NOMES PARA CLICAR
+    const OFFICIAL_TEAMS = [
+        "Brendon Crato & Gui Moreti", "Alemão & Victória", "Matheus & Ivens", "Douglas & Pedro de Almeida",
+        "Edu Foguetinho & Naju", "Fabio Henrique & Enzo", "Monique Reynaux & Andressa Paiva",
+        "Gabriel Santana & Diego Michels", "Rodrigo Psycho & Grace Bicalho", "Sô & Nero Castro",
+        "Izidoro Paniago & Gabriel Gomes", "Pedro PSYCHO & Gab", "Henrique & Mano Vero",
+        "Vitor Hugo Aguiar & Wesley Skonieski", "Vitor Marques & Leticia Bianchi", "Arthur Lopes & Jessé Santos"
+    ];
 
+    const EXPERIENCE_FACTOR = 0.30; 
     const PARAMETERS = {
-        "M": {
-            "Classico": { "SBD": [1199.72839, 1025.18162, 0.009210] },
-            "Equipado": { "SBD": [1236.25115, 1449.21864, 0.01644] }
-        },
-        "F": {
-            "Classico": { "SBD": [610.32796, 1045.59282, 0.03048] },
-            "Equipado": { "SBD": [758.63878, 949.31382, 0.02435] }
-        }
+        "M": { "Classico": { "SBD": [1199.72839, 1025.18162, 0.009210] }, "Equipado": { "SBD": [1236.25115, 1449.21864, 0.01644] } },
+        "F": { "Classico": { "SBD": [610.32796, 1045.59282, 0.03048] }, "Equipado": { "SBD": [758.63878, 949.31382, 0.02435] } }
     };
 
     let teams = [];
 
-    // Carregar do LocalStorage se existir
-    if(localStorage.getItem('powerlifting_teams')) {
-        teams = JSON.parse(localStorage.getItem('powerlifting_teams'));
-        updateLeaderboard();
+    document.addEventListener("DOMContentLoaded", function() {
+        if(localStorage.getItem('powerlifting_teams')) {
+            try { teams = JSON.parse(localStorage.getItem('powerlifting_teams')); } catch(e) { teams = []; }
+            updateLeaderboard();
+        }
+        renderOfficialTeams();
+    });
+
+    function renderOfficialTeams() {
+        const container = document.getElementById('official-roster');
+        let html = '';
+        OFFICIAL_TEAMS.forEach(team => {
+            html += `<div class="roster-card" onclick="selectAndLoadTeam('${team}')"><div class="roster-icon">👥</div><div><div class="roster-names">${team}</div></div></div>`;
+        });
+        container.innerHTML = html;
     }
 
-    // --- CÁLCULO IPF GL ---
+    // --- NOVA FUNÇÃO: CARREGA DADOS EXISTENTES NO FORMULÁRIO ---
+    function selectAndLoadTeam(name) {
+        document.getElementById('teamName').value = name;
+        
+        // Procura se já existe salvo
+        const savedTeam = teams.find(t => t.name === name);
+        
+        if (savedTeam) {
+            // Preenche Atleta 1
+            document.getElementById('p1_sex').value = savedTeam.p1.sex;
+            document.getElementById('p1_equip').value = savedTeam.p1.equip;
+            document.getElementById('p1_weight').value = savedTeam.p1.weight;
+            document.getElementById('p1_years').value = savedTeam.p1.years;
+            document.getElementById('p1_start').value = savedTeam.p1.totalStart || savedTeam.p1.total; // Garante totalStart
+            document.getElementById('p1_current').value = savedTeam.p1.totalCurrent || savedTeam.p1.total;
+
+            // Preenche Atleta 2
+            document.getElementById('p2_sex').value = savedTeam.p2.sex;
+            document.getElementById('p2_equip').value = savedTeam.p2.equip;
+            document.getElementById('p2_weight').value = savedTeam.p2.weight;
+            document.getElementById('p2_years').value = savedTeam.p2.years;
+            document.getElementById('p2_start').value = savedTeam.p2.totalStart || savedTeam.p2.total;
+            document.getElementById('p2_current').value = savedTeam.p2.totalCurrent || savedTeam.p2.total;
+
+            // Feedback visual
+            // alert(`Dados de "${name}" carregados! Atualize o "Total Atual".`);
+        } else {
+            // Limpa se não existir
+            // (Opcional, talvez você prefira manter o que estava escrito)
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
     function calculateGL(sex, equip, weight, total) {
         if (!weight || !total || weight < 35) return 0;
-        
-        // Assume SBD
         const params = PARAMETERS[sex][equip]["SBD"];
         const denominador = params[0] - (params[1] * Math.exp(-1.0 * params[2] * weight));
-        
-        if (denominador === 0) return 0;
-        return Math.max(0, (total * 100.0) / denominador);
+        return (denominador === 0) ? 0 : Math.max(0, (total * 100.0) / denominador);
     }
 
-    // --- CÁLCULO DE HANDICAP E PONTUAÇÃO ---
     function calculateAthleteScore(data) {
-        // 1. Calcula GL Inicial e Final
         const glStart = calculateGL(data.sex, data.equip, data.weight, data.totalStart);
         const glEnd = calculateGL(data.sex, data.equip, data.weight, data.totalCurrent);
-        
-        // 2. Evolução Pura
         const evolutionRaw = glEnd - glStart;
-        
-        // 3. Multiplicador de Experiência
         const multiplier = 1 + (data.years * EXPERIENCE_FACTOR);
-
-        // 4. Pontuação Ajustada
-        const adjustedScore = evolutionRaw * multiplier;
-
-        return {
-            currentGL: glEnd,       // <--- ADICIONADO: O GL Final atual
-            raw: evolutionRaw,      // A evolução bruta
-            adjusted: adjustedScore,// A pontuação para o ranking
-            multiplier: multiplier  // O handicap usado
-        };
+        return { currentGL: glEnd, raw: evolutionRaw, adjusted: evolutionRaw * multiplier, multiplier: multiplier };
     }
 
     function registerTeam() {
         const name = document.getElementById('teamName').value.trim() || "Time Sem Nome";
         
-        // Helper para pegar dados do formulário
         const getAthleteData = (prefix) => ({
             sex: document.getElementById(prefix + '_sex').value,
             equip: document.getElementById(prefix + '_equip').value,
@@ -347,40 +249,54 @@
         const p2Data = getAthleteData('p2');
 
         if (isNaN(p1Data.totalStart) || isNaN(p1Data.totalCurrent) || isNaN(p2Data.totalStart) || isNaN(p2Data.totalCurrent)) {
-            alert("Por favor, preencha todos os campos de Total (Inicial e Atual).");
+            alert("Preencha todos os campos de Total (Inicial e Atual)!");
             return;
         }
 
         const res1 = calculateAthleteScore(p1Data);
         const res2 = calculateAthleteScore(p2Data);
-
         const teamScore = res1.adjusted + res2.adjusted;
         const rawEvolutionTotal = res1.raw + res2.raw;
 
-        // --- AQUI ESTÁ A MUDANÇA NA FORMATAÇÃO DO TEXTO ---
-        // Exibe: A1 [GL Atual] GL pts +[Evolução] GL pts Aumentados (Multiplicador)
+        // --- FORMATAÇÃO ATUALIZADA: MOSTRA INICIAL E ATUAL ---
         const detailsText = `
-            A1: <strong>${res1.currentGL.toFixed(2)}</strong> GL pts | +${res1.raw.toFixed(2)} GL pts Aumentados (${res1.multiplier.toFixed(2)}x)<br>
-            A2: <strong>${res2.currentGL.toFixed(2)}</strong> GL pts | +${res2.raw.toFixed(2)} GL pts Aumentados (${res2.multiplier.toFixed(2)}x)
+        <div style="margin-bottom:4px; border-bottom:1px solid #333; padding-bottom:4px;">
+            <span style="color:#aaa; font-size:0.9em;">A1: ${p1Data.weight}kg | ${p1Data.years}a | <strong>${p1Data.totalStart}kg ➔ ${p1Data.totalCurrent}kg</strong></span><br>
+            ➔ <strong>${res1.currentGL.toFixed(2)}</strong> GL <span style="font-size:0.85em; color:#666">(${res1.multiplier.toFixed(2)}x)</span>
+        </div>
+        <div>
+            <span style="color:#aaa; font-size:0.9em;">A2: ${p2Data.weight}kg | ${p2Data.years}a | <strong>${p2Data.totalStart}kg ➔ ${p2Data.totalCurrent}kg</strong></span><br>
+            ➔ <strong>${res2.currentGL.toFixed(2)}</strong> GL <span style="font-size:0.85em; color:#666">(${res2.multiplier.toFixed(2)}x)</span>
+        </div>
         `;
 
-        const newTeam = {
-            id: Date.now(),
+        const existingIndex = teams.findIndex(t => t.name === name);
+        const safeId = existingIndex >= 0 ? teams[existingIndex].id : Date.now().toString(); 
+
+        // Garante que salvamos totalStart separado de totalCurrent
+        const newTeamData = {
+            id: safeId,
             name: name,
             score: teamScore,
             rawEvolution: rawEvolutionTotal,
-            details: detailsText // Salva o texto formatado HTML
+            details: detailsText,
+            p1: { ...p1Data, totalStart: p1Data.totalStart, totalCurrent: p1Data.totalCurrent }, 
+            p2: { ...p2Data, totalStart: p2Data.totalStart, totalCurrent: p2Data.totalCurrent }
         };
 
-        teams.push(newTeam);
+        if(existingIndex >= 0) { teams[existingIndex] = newTeamData; } else { teams.push(newTeamData); }
+
         saveAndRender();
-        
         document.getElementById('teamName').value = "";
+        alert(`Evolução de "${name}" salva!`);
     }
 
     function removeTeam(id) {
-        teams = teams.filter(t => t.id !== id);
-        saveAndRender();
+        const strId = String(id);
+        if(confirm("Remover este time do ranking?")) {
+            teams = teams.filter(t => String(t.id) !== strId);
+            saveAndRender();
+        }
     }
 
     function saveAndRender() {
@@ -391,8 +307,6 @@
     function updateLeaderboard() {
         const list = document.getElementById('leaderboard');
         list.innerHTML = "";
-
-        // Ordenar por Pontuação Ajustada (Decrescente)
         teams.sort((a, b) => b.score - a.score);
 
         if (teams.length === 0) {
@@ -409,13 +323,13 @@
                     <span class="rank-pos">${index + 1}</span>
                     <div class="team-info">
                         <span class="team-name">${isFirst ? '👑 ' : ''}${team.name}</span>
-                        <div class="team-stats" style="line-height:1.6; margin-top:5px;">${team.details}</div>
+                        <div class="team-stats">${team.details}</div>
                     </div>
                     <div class="score-box">
                         <span class="final-score">${team.score.toFixed(2)}</span>
-                        <span class="raw-evolution">Evolução Real: ${team.rawEvolution.toFixed(2)} GL</span>
+                        <span class="raw-evolution">Evol: ${team.rawEvolution.toFixed(2)}</span>
                     </div>
-                    <button class="delete-btn" onclick="removeTeam(${team.id})">&times;</button>
+                    <button class="delete-btn" onclick="removeTeam('${team.id}')">&times;</button>
                 </div>
             `;
             list.insertAdjacentHTML('beforeend', html);
