@@ -42,7 +42,6 @@
         select, input[type="number"] { width: 100%; padding: 10px; background: var(--input-bg); border: 1px solid #444; color: white; border-radius: 4px; box-sizing: border-box; font-size: 0.9rem; }
         input[type="number"]:focus { outline: none; border-color: var(--accent); }
         
-        /* Destaque para inputs importantes */
         .highlight-input { border-color: var(--accent-dim) !important; background-color: rgba(0, 230, 118, 0.05) !important; font-weight: bold; color: var(--accent) !important; }
         .locked-input { color: #888; background-color: #222; border-color: #333; }
 
@@ -150,15 +149,6 @@
     </div>
 
 <script>
-    // LISTA DE NOMES PARA CLICAR
-    const OFFICIAL_TEAMS = [
-        "Brendon Crato & Gui Moreti", "Alemão & Victória", "Matheus & Ivens", "Douglas & Pedro de Almeida",
-        "Edu Foguetinho & Naju", "Fabio Henrique & Enzo", "Monique Reynaux & Andressa Paiva",
-        "Gabriel Santana & Diego Michels", "Rodrigo Psycho & Grace Bicalho", "Sô & Nero Castro",
-        "Izidoro Paniago & Gabriel Gomes", "Pedro PSYCHO & Gab", "Henrique & Mano Vero",
-        "Vitor Hugo Aguiar & Wesley Skonieski", "Vitor Marques & Leticia Bianchi", "Arthur Lopes & Jessé Santos"
-    ];
-
     const EXPERIENCE_FACTOR = 0.30; 
     const PARAMETERS = {
         "M": { "Classico": { "SBD": [1199.72839, 1025.18162, 0.009210] }, "Equipado": { "SBD": [1236.25115, 1449.21864, 0.01644] } },
@@ -167,7 +157,148 @@
 
     let teams = [];
 
+    // --- INICIALIZAÇÃO ---
     document.addEventListener("DOMContentLoaded", function() {
+        
+        // -------------------------------------------------------------
+        // BLOCO DE CÓDIGO QUE RODA APENAS NA PRIMEIRA VEZ (OU UPDATE)
+        // -------------------------------------------------------------
+        const VERSION_KEY = 'v2_data_init'; // Mudei a chave para forçar atualização no seu PC
+
+        if (!localStorage.getItem(VERSION_KEY)) {
+            console.log("Detectado primeira execução (ou atualização). Rodando script de carga...");
+
+            const TEAMS_DATA_FINAL = [
+                { 
+                    name: "Brendon Crato & Gui Moreti",
+                    p1: { name: "Brendon", weight: 114, total: 567.5, years: 4, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Guilherme", weight: 108, total: 837, years: 10, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Alemão & Victória",
+                    p1: { name: "Alemão (RPE10)", weight: 82, total: 592.5, years: 4, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Victória", weight: 56, total: 397.5, years: 2.5, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Matheus & Ivens",
+                    p1: { name: "Matheus (Fonteles)", weight: 98, total: 655, years: 8, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Ivens (Ivro)", weight: 83, total: 505, years: 3, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Douglas & Pedro de Almeida",
+                    p1: { name: "Douglas", weight: 98, total: 600, years: 3, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Pedro (Ivo Marketing)", weight: 84, total: 545, years: 5, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Edu Foguetinho & Naju",
+                    p1: { name: "Edu Foguete", weight: 67.5, total: 515, years: 2, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Naju", weight: 56, total: 224, years: 0.6, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Fabio Henrique & Enzo",
+                    p1: { name: "Fabio", weight: 78, total: 480, years: 3, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Enzo S", weight: 82, total: 552.5, years: 3.5, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Monique Reynaux & Andressa Paiva",
+                    p1: { name: "Monique", weight: 62, total: 343, years: 6, sex: 'F', equip: 'Classico' },
+                    p2: { name: "Andressa Paiva", weight: 55.4, total: 295, years: 1, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Gabriel Santana & Diego Michels",
+                    p1: { name: "Gabriel", weight: 84, total: 615, years: 5, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Michels (Trichels)", weight: 90, total: 600, years: 3.5, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Rodrigo Psycho & Grace Bicalho",
+                    p1: { name: "Rodrigo Glitter", weight: 81, total: 465, years: 4, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Grace Bicalho", weight: 81, total: 307.5, years: 1, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Sô & Nero Castro",
+                    p1: { name: "Sofia (Sô)", weight: 67, total: 283, years: 2, sex: 'F', equip: 'Classico' },
+                    p2: { name: "Nero", weight: 83, total: 606, years: 5, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Izidoro Paniago & Gabriel Gomes",
+                    p1: { name: "Izidoro", weight: 89.8, total: 455, years: 3.5, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Gabriel Gomes (Trapézio)", weight: 94, total: 465, years: 2, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Pedro PSYCHO & Gab",
+                    p1: { name: "Pedro Psycho (Gerso)", weight: 89, total: 585, years: 3, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Gabrielle", weight: 74, total: 325, years: 3, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Henrique & Mano Vero",
+                    p1: { name: "Henrique", weight: 80, total: 0, years: 0, sex: 'M', equip: 'Classico' }, 
+                    p2: { name: "Mano Vero", weight: 80, total: 0, years: 0, sex: 'M', equip: 'Classico' } 
+                },
+                { 
+                    name: "Vitor Hugo Aguiar & Wesley Skonieski",
+                    p1: { name: "Vitor Hugo", weight: 80, total: 0, years: 0, sex: 'M', equip: 'Classico' }, 
+                    p2: { name: "Wesley Skoni", weight: 85, total: 465, years: 2.4, sex: 'M', equip: 'Classico' }
+                },
+                { 
+                    name: "Vitor Marques & Leticia Bianchi",
+                    p1: { name: "Vitor Marques (Vito)", weight: 83, total: 500, years: 3, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Letícia", weight: 64, total: 252, years: 2, sex: 'F', equip: 'Classico' }
+                },
+                { 
+                    name: "Arthur Lopes & Jessé Santos",
+                    p1: { name: "Arthur", weight: 78, total: 505, years: 2, sex: 'M', equip: 'Classico' },
+                    p2: { name: "Jessé", weight: 87.9, total: 360, years: 2, sex: 'M', equip: 'Classico' }
+                }
+            ];
+
+            // Funções auxiliares internas para o script inicial
+            function getGL(sex, equip, weight, total) {
+                if (!weight || !total) return 0;
+                const p = PARAMETERS[sex][equip]["SBD"];
+                const d = p[0] - (p[1] * Math.exp(-1.0 * p[2] * weight));
+                return (d === 0) ? 0 : Math.max(0, (total * 100.0) / d);
+            }
+
+            function getStats(d) {
+                const gl = getGL(d.sex, d.equip, d.weight, d.total);
+                const m = 1 + (d.years * 0.30);
+                return { gl: gl, mult: m };
+            }
+
+            const newPayload = TEAMS_DATA_FINAL.map((t, idx) => {
+                const r1 = getStats(t.p1);
+                const r2 = getStats(t.p2);
+                
+                const details = `
+                    <div style="margin-bottom:4px; border-bottom:1px solid #333; padding-bottom:4px;">
+                        <span style="color:#aaa; font-size:0.9em;">A1: ${t.p1.weight}kg | ${t.p1.years}a | <strong>${t.p1.total}kg ➔ ${t.p1.total}kg</strong></span><br>
+                        ➔ <strong>${r1.gl.toFixed(2)}</strong> GL <span style="font-size:0.85em; color:#666">(${r1.mult.toFixed(2)}x)</span>
+                    </div>
+                    <div>
+                        <span style="color:#aaa; font-size:0.9em;">A2: ${t.p2.weight}kg | ${t.p2.years}a | <strong>${t.p2.total}kg ➔ ${t.p2.total}kg</strong></span><br>
+                        ➔ <strong>${r2.gl.toFixed(2)}</strong> GL <span style="font-size:0.85em; color:#666">(${r2.mult.toFixed(2)}x)</span>
+                    </div>
+                `;
+
+                return {
+                    id: Date.now() + idx,
+                    name: t.name,
+                    score: 0,
+                    rawEvolution: 0,
+                    details: details,
+                    // Garante a estrutura correta para o app funcionar depois
+                    p1: { ...t.p1, totalStart: t.p1.total, totalCurrent: t.p1.total },
+                    p2: { ...t.p2, totalStart: t.p2.total, totalCurrent: t.p2.total }
+                };
+            });
+
+            localStorage.setItem('powerlifting_teams', JSON.stringify(newPayload));
+            localStorage.setItem(VERSION_KEY, 'true'); // Marca que já rodou
+            location.reload(); // Recarrega para mostrar
+            return; // Para execução aqui
+        }
+
+        // --- CARGA NORMAL DO APP ---
         if(localStorage.getItem('powerlifting_teams')) {
             try { teams = JSON.parse(localStorage.getItem('powerlifting_teams')); } catch(e) { teams = []; }
             updateLeaderboard();
@@ -175,46 +306,42 @@
         renderOfficialTeams();
     });
 
+    // LISTA DE NOMES PARA CLICAR (Usada na renderização da lista visual)
+    const OFFICIAL_TEAMS_LIST = [
+        "Brendon Crato & Gui Moreti", "Alemão & Victória", "Matheus & Ivens", "Douglas & Pedro de Almeida",
+        "Edu Foguetinho & Naju", "Fabio Henrique & Enzo", "Monique Reynaux & Andressa Paiva",
+        "Gabriel Santana & Diego Michels", "Rodrigo Psycho & Grace Bicalho", "Sô & Nero Castro",
+        "Izidoro Paniago & Gabriel Gomes", "Pedro PSYCHO & Gab", "Henrique & Mano Vero",
+        "Vitor Hugo Aguiar & Wesley Skonieski", "Vitor Marques & Leticia Bianchi", "Arthur Lopes & Jessé Santos"
+    ];
+
     function renderOfficialTeams() {
         const container = document.getElementById('official-roster');
         let html = '';
-        OFFICIAL_TEAMS.forEach(team => {
+        OFFICIAL_TEAMS_LIST.forEach(team => {
             html += `<div class="roster-card" onclick="selectAndLoadTeam('${team}')"><div class="roster-icon">👥</div><div><div class="roster-names">${team}</div></div></div>`;
         });
         container.innerHTML = html;
     }
 
-    // --- NOVA FUNÇÃO: CARREGA DADOS EXISTENTES NO FORMULÁRIO ---
     function selectAndLoadTeam(name) {
         document.getElementById('teamName').value = name;
-        
-        // Procura se já existe salvo
         const savedTeam = teams.find(t => t.name === name);
-        
         if (savedTeam) {
-            // Preenche Atleta 1
             document.getElementById('p1_sex').value = savedTeam.p1.sex;
             document.getElementById('p1_equip').value = savedTeam.p1.equip;
             document.getElementById('p1_weight').value = savedTeam.p1.weight;
             document.getElementById('p1_years').value = savedTeam.p1.years;
-            document.getElementById('p1_start').value = savedTeam.p1.totalStart || savedTeam.p1.total; // Garante totalStart
+            document.getElementById('p1_start').value = savedTeam.p1.totalStart || savedTeam.p1.total;
             document.getElementById('p1_current').value = savedTeam.p1.totalCurrent || savedTeam.p1.total;
 
-            // Preenche Atleta 2
             document.getElementById('p2_sex').value = savedTeam.p2.sex;
             document.getElementById('p2_equip').value = savedTeam.p2.equip;
             document.getElementById('p2_weight').value = savedTeam.p2.weight;
             document.getElementById('p2_years').value = savedTeam.p2.years;
             document.getElementById('p2_start').value = savedTeam.p2.totalStart || savedTeam.p2.total;
             document.getElementById('p2_current').value = savedTeam.p2.totalCurrent || savedTeam.p2.total;
-
-            // Feedback visual
-            // alert(`Dados de "${name}" carregados! Atualize o "Total Atual".`);
-        } else {
-            // Limpa se não existir
-            // (Opcional, talvez você prefira manter o que estava escrito)
         }
-
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
@@ -258,7 +385,6 @@
         const teamScore = res1.adjusted + res2.adjusted;
         const rawEvolutionTotal = res1.raw + res2.raw;
 
-        // --- FORMATAÇÃO ATUALIZADA: MOSTRA INICIAL E ATUAL ---
         const detailsText = `
         <div style="margin-bottom:4px; border-bottom:1px solid #333; padding-bottom:4px;">
             <span style="color:#aaa; font-size:0.9em;">A1: ${p1Data.weight}kg | ${p1Data.years}a | <strong>${p1Data.totalStart}kg ➔ ${p1Data.totalCurrent}kg</strong></span><br>
@@ -273,7 +399,6 @@
         const existingIndex = teams.findIndex(t => t.name === name);
         const safeId = existingIndex >= 0 ? teams[existingIndex].id : Date.now().toString(); 
 
-        // Garante que salvamos totalStart separado de totalCurrent
         const newTeamData = {
             id: safeId,
             name: name,
